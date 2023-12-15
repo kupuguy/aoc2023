@@ -49,7 +49,7 @@ def part1(input: list[str]) -> int:
     # print(top, grid)
     grid = shift_north(top, grid)
     # print(grid)
-    return sum(n for col in grid for n, c in col if c=='O')
+    return sum(n for col in grid for n, c in col if c == "O")
 
 
 res = part1(TEST_DATA)
@@ -57,12 +57,13 @@ assert res == EXPECTED
 
 print(part1(input))
 
+
 def shift_west(top: int, grid: list[list[tuple[int, str]]]):
     width = len(grid)
-    left_free = [-1 for i in range(top+1)]
+    left_free = [-1 for i in range(top + 1)]
     shifted: list[list[tuple[int, str]]] = [[] for n in range(width)]
 
-    for x,col in enumerate(grid):
+    for x, col in enumerate(grid):
         for n, c in col:
             if c == "O":
                 left_free[n] += 1
@@ -76,6 +77,7 @@ def shift_west(top: int, grid: list[list[tuple[int, str]]]):
                 shifted[x].append((n, c))
                 left_free[n] = x
     return [sorted(col, reverse=True) for col in shifted]
+
 
 def shift_south(top: int, grid: list[list[tuple[int, str]]]):
     shifted: list[list[tuple[int, str]]] = []
@@ -92,12 +94,13 @@ def shift_south(top: int, grid: list[list[tuple[int, str]]]):
                 prev = n
     return [col[::-1] for col in shifted]
 
+
 def shift_east(top: int, grid: list[list[tuple[int, str]]]):
     width = len(grid)
-    right_free = [width for i in range(top+1)]
+    right_free = [width for i in range(top + 1)]
     shifted: list[list[tuple[int, str]]] = [[] for n in range(width)]
 
-    for x,col in reversed(list(enumerate(grid))):
+    for x, col in reversed(list(enumerate(grid))):
         for n, c in col:
             if c == "O":
                 right_free[n] -= 1
@@ -107,22 +110,24 @@ def shift_east(top: int, grid: list[list[tuple[int, str]]]):
                 right_free[n] = x
     return [sorted(col, reverse=True) for col in shifted]
 
+
 def show(top: int, grid: list[list[tuple[int, str]]]):
-    matrix = [['.'] * top for n in range(len(grid))]
+    matrix = [["."] * top for n in range(len(grid))]
     for x, col in enumerate(grid):
-        for n,c in col:
-            if matrix[x][n-1] == '.':
-                matrix[x][n-1] = c
+        for n, c in col:
+            if matrix[x][n - 1] == ".":
+                matrix[x][n - 1] = c
             else:
-                matrix[x][n-1] = '!'
+                matrix[x][n - 1] = "!"
 
     for line in reversed(list(zip(*matrix))):
-        print(''.join(line))
+        print("".join(line))
     print()
+
 
 def validate(top: int, grid: list[list[tuple[int, str]]], orig) -> None:
     for x, col in enumerate(grid):
-        p = top+1
+        p = top + 1
         for n, c in col:
             if not (1 <= n <= top) and n < p:
                 show(top, grid)
@@ -131,6 +136,7 @@ def validate(top: int, grid: list[list[tuple[int, str]]], orig) -> None:
                 print(n, c)
                 raise RuntimeError()
             p = n
+
 
 def spin(top: int, grid: list[list[tuple[int, str]]]):
     orig = grid
@@ -145,11 +151,14 @@ def spin(top: int, grid: list[list[tuple[int, str]]]):
     validate(top, grid, orig)
     return grid
 
+
 def grid_key(grid: list[list[tuple[int, str]]]) -> tuple[tuple[int]]:
-    return tuple(tuple(n for n,c in col if c=='O') for col in grid)
+    return tuple(tuple(n for n, c in col if c == "O") for col in grid)
+
 
 def grid_score(grid: list[list[tuple[int, str]]]) -> int:
-    return sum(n for col in grid for n, c in col if c=='O')
+    return sum(n for col in grid for n, c in col if c == "O")
+
 
 def part2(input: list[str], cycles: int) -> int:
     top, grid = parse(input)
@@ -165,13 +174,14 @@ def part2(input: list[str], cycles: int) -> int:
             wanted = (cycles - start) % (turn - start) + start
             for n, score in states.values():
                 if n == wanted:
-                    return score 
+                    return score
             raise RuntimeError()
         else:
             states[key] = (turn, grid_score(grid))
             turn += 1
     print(grid)
     return grid_score(grid)
+
 
 CYCLES = 1_000_000_000
 res = part2(TEST_DATA, CYCLES)
