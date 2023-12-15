@@ -44,10 +44,7 @@ def reflections(block: list[str]) -> Sequence[int]:
     for index in range(1, len(block)):
         nrange = min(index, len(block) - index)
         # print(len(block), index, index - (nrange-1) - 1, index + nrange-1)
-        if all(
-            block[index - n - 1] == block[index + n]
-            for n in range(nrange)
-        ):
+        if all(block[index - n - 1] == block[index + n] for n in range(nrange)):
             yield index
 
 
@@ -70,8 +67,10 @@ assert res == EXPECTED
 print(part1(input))
 # > 20700
 
+
 def diff_by_one(line1: str, line2: str) -> bool:
-    return sum(1 if a != b else 0 for a,b in zip(line1, line2)) == 1
+    return sum(1 if a != b else 0 for a, b in zip(line1, line2)) == 1
+
 
 def smudged(block: list[str]) -> int:
     for index in range(1, len(block)):
@@ -81,7 +80,9 @@ def smudged(block: list[str]) -> int:
         match = True
         for n in range(nrange):
             if block[index - n - 1] != block[index + n]:
-                if not seen_diff and diff_by_one(block[index - n - 1], block[index + n]):
+                if not seen_diff and diff_by_one(
+                    block[index - n - 1], block[index + n]
+                ):
                     seen_diff = True
                     continue
                 match = False
@@ -89,6 +90,7 @@ def smudged(block: list[str]) -> int:
         if match and seen_diff:
             return index
     return 0
+
 
 def part2(input: list[str]) -> int:
     total = 0
@@ -100,6 +102,7 @@ def part2(input: list[str]) -> int:
         total += smudged(transposed)
 
     return total
+
 
 assert part2(TEST_DATA) == 400
 print(part2(input))
