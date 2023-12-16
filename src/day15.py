@@ -26,6 +26,7 @@ def part1(steps: str) -> int:
 assert part1(TEST_DATA) == EXPECTED
 print(part1(input))
 
+
 def focus_power(hashmap: dict[int, dict[str, int]]) -> int:
     power = 0
     for boxno, slot in enumerate(hashmap.values(), start=1):
@@ -34,22 +35,24 @@ def focus_power(hashmap: dict[int, dict[str, int]]) -> int:
             power += boxno * slot * pwr
     return power
 
+
 def part2(steps: str) -> int:
-    hashmap: dict[int, dict[str, int]] = { n: {} for n in range(256)}
-    for step in steps.split(','):
+    hashmap: dict[int, dict[str, int]] = {n: {} for n in range(256)}
+    for step in steps.split(","):
         # print(step)
-        if step.endswith('-'):
+        if step.endswith("-"):
             label = step[:-1]
             n = hash_alg(label)
             # print(n, label, label in hashmap[n])
             if label in hashmap[n]:
                 del hashmap[n][label]
         else:
-            label, pwr = step.split('=')
+            label, pwr = step.split("=")
             n = hash_alg(label)
             hashmap[n][label] = int(pwr)
-    print(*[hashmap[k] for k in hashmap if hashmap[k]], sep='\n')
+    print(*[hashmap[k] for k in hashmap if hashmap[k]], sep="\n")
     return focus_power(hashmap)
+
 
 res = part2(TEST_DATA)
 assert res == 145
