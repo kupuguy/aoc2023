@@ -77,22 +77,25 @@ def dig(data: list[tuple[str, int]]) -> list[list[str]]:
     # print('\n'.join(''.join(row) for row in grid))
     return grid
 
+
 def fill_outside(grid: list[list[str]]) -> int:
     width, height = len(grid[0]), len(grid)
     points = deque([(0, 0)])
     count = 0
     while points:
-        x,y = points.popleft()
-        if grid[y][x] != '.': continue
-        grid[y][x] = '!'
+        x, y = points.popleft()
+        if grid[y][x] != ".":
+            continue
+        grid[y][x] = "!"
         count += 1
-        for x1,y1 in [(x, y-1), (x-1, y), (x, y+1), (x+1, y)]:
-            if 0 <= x1 < width and 0 <= y1 < height and grid[y1][x1] == '.':
-                points.append((x1,y1))
+        for x1, y1 in [(x, y - 1), (x - 1, y), (x, y + 1), (x + 1, y)]:
+            if 0 <= x1 < width and 0 <= y1 < height and grid[y1][x1] == ".":
+                points.append((x1, y1))
 
     # print('\n'.join(''.join(row) for row in grid))
-    print(width, height, width*height, count)
-    return width*height - count
+    print(width, height, width * height, count)
+    return width * height - count
+
 
 def part1(input: list[str]):
     data = parse(input)
@@ -103,22 +106,24 @@ def part1(input: list[str]):
 res = part1(TEST_DATA)
 print(f"Test={res}")
 assert res == EXPECTED
-print(part1(input)) # 46334
+print(part1(input))  # 46334
+
 
 def parse2(input: list[str]) -> list[tuple[int, int]]:
     res: list[tuple[str, int, int]] = []
-    directions = {0: 'R', 1: 'D', 2: 'L', 3: 'U'}
+    directions = {0: "R", 1: "D", 2: "L", 3: "U"}
     for line in input:
         dir, count, colour = line.split()
         res.append((directions[int(colour[-2])], int(colour[2:-2], 16)))
     return res
+
 
 def dig2(data: list[tuple[str, int]]) -> int:
     x, y = 0, 0
     inside = 1
     for d, n in data:
         if d == "U":
-            inside -= n * (x-1)
+            inside -= n * (x - 1)
             y -= n
         elif d == "D":
             inside += n * x
@@ -131,10 +136,12 @@ def dig2(data: list[tuple[str, int]]) -> int:
 
     return inside
 
+
 def part2a(input: list[str]):
     data = parse(input)
     volume = dig2(data)
     return volume
+
 
 EXPECTED2 = 952408144115
 
@@ -143,14 +150,15 @@ print(f"Test={res}")
 assert res == EXPECTED
 assert part2a(input) == 46334
 
+
 def part2(input: list[str]):
     data = parse2(input)
     volume = dig2(data)
     return volume
 
+
 res = part2(TEST_DATA)
 print(f"Test={res}")
 assert res == EXPECTED2
 print(part2(input))
-#102000662718092
-
+# 102000662718092
