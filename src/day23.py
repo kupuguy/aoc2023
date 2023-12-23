@@ -4,7 +4,7 @@ from functools import cache
 from pprint import pprint
 from collections import deque
 import re
-from typing import Callable
+from typing import Callable, Generator
 from operator import lt, gt
 from dataclasses import dataclass, field
 from string import ascii_uppercase
@@ -60,7 +60,7 @@ def paths(
         current = stack[-1][-1]
         visited.add(current)
         if current == end:
-            print(len(visited) - 1)
+            # print(len(visited) - 1)
             yield visited - {start}
         else:
             nxt = [
@@ -92,11 +92,11 @@ def part1(input: list[str]) -> int:
     return len(longest)
 
 
-# res = part1(TEST_DATA)
-# print("Test", res)
-# assert res == EXPECTED
+res = part1(TEST_DATA)
+print("Test", res)
+assert res == EXPECTED
 
-# print(f"{part1(input)=}")
+print(f"{part1(input)=}")
 
 
 def neighbours2(x: int, y: int, grid: list[str]) -> list[tuple[int, int]]:
@@ -115,6 +115,7 @@ class Node:
     neighbour_distances: dict[tuple[int, int], int] = field(
         default_factory=dict, init=False, hash=False, repr=False
     )
+    id: int = field(default=0, init=False, hash=False, repr=False)
 
 
 def parse_nodes(grid: list[str]):
@@ -143,12 +144,16 @@ def parse_nodes(grid: list[str]):
             del nodes[a].neighbour_distances[xy]
             del nodes[b].neighbour_distances[xy]
     print(f"Found {len(nodes)} nodes")
+    id = 1
+    for n in nodes.values():
+        n.id = id
+        id <<= 1
     return nodes
 
 
 def node_paths(
     nodes: dict[tuple[int, int], Node], start: tuple[int, int], end: tuple[int, int]
-) -> list[tuple[int, int]]:
+) -> Generator[int, None, None]:
     visited: dict[tuple[int, int], int] = {start: 0}
     stack: list[list[tuple[tuple[int, int], int]]] = [[(start, 0)]]
     print(f"{start=}, {end=}")
@@ -188,5 +193,44 @@ def part2(input: list[str]) -> int:
     return longest
 
 
-assert part2(TEST_DATA) == 154
-print(f"{part2(input)=}")
+# assert part2(TEST_DATA) == 154
+# print(f"{part2(input)=}")
+
+
+# Alternative solution for part2 using a bitmap to track visited nodes.
+def find_longest(
+    nodes: dict[tuple[int, int], Node], start: tuple[int, int], end: tuple[int, int]
+) -> int:
+    def longest(current: Node, visited: int) -> int:
+        max_d = 0
+        if end in current.neighbour_distances:
+            # Only one path to the end so don't try other exits from last junction
+            return current.neighbour_distances[end]
+
+        for nxt_xy, d in current.neighbour_distances.items():
+            nxt = nodes[nxt_xy]
+            if visited & nxt.id:
+                continue
+            path = longest(nxt, visited | nxt.id)
+            if path:
+                max_d = max(max_d, d + path)
+        return max_d
+
+    end_node = nodes[end]
+    assert (
+        len(end_node.neighbour_distances) == 1
+    ), "Assumption for early exit in longest is wrong"
+    start_node = nodes[start]
+    return longest(start_node, start_node.id)
+
+
+def part2_recursive(input: list[str]) -> int:
+    nodes = parse_nodes(input)
+    # for xy in nodes:
+    #     print(f"{xy} -> {list(nodes[xy].neighbour_distances.keys())}")
+
+    return find_longest(nodes, (1, 0), (len(input[0]) - 2, len(input) - 1))
+
+
+assert part2_recursive(TEST_DATA) == 154
+print(f"{part2_recursive(input)=}")
