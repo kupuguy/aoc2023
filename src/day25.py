@@ -1,15 +1,5 @@
 from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
-from collections import deque
-import re
-from typing import Callable, Generator
-from operator import lt, gt
-from dataclasses import dataclass, field
-from string import ascii_uppercase
-from itertools import combinations
-import functools, math
+
 import networkx as nx
 
 input = Path("input/day25.txt").read_text().strip().splitlines()

@@ -1,4 +1,5 @@
 import re
+from pathlib import Path
 
 DATA = """1abc2
 pqr3stu8vwx
@@ -24,8 +25,6 @@ def part1(data: list[str]) -> int:
 test1 = part1(DATA)
 print(test1)
 assert test1 == EXPECTED
-
-from pathlib import Path
 
 input = Path("input/day1.txt").read_text().split("\n")
 print(part1(input))

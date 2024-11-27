@@ -1,6 +1,7 @@
-from pathlib import Path
-from enum import IntEnum
 from collections import Counter
+from enum import IntEnum
+from pathlib import Path
+from typing import Sequence
 
 input = Path("input/day7.txt").read_text().splitlines()
 
@@ -69,7 +70,6 @@ assert part1(TEST_DATA) == EXPECTED
 print(part1(input))
 # 249483956
 
-from typing import Sequence
 
 STRENGTHS = "J23456789TQKA"
 

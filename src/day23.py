@@ -1,13 +1,6 @@
-from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
-from collections import deque
-import re
-from typing import Callable, Generator
-from operator import lt, gt
 from dataclasses import dataclass, field
-from string import ascii_uppercase
+from pathlib import Path
+from typing import Generator
 
 input = Path("input/day23.txt").read_text().strip().splitlines()
 
@@ -136,7 +129,7 @@ def parse_nodes(grid: list[str]):
         if len(n.neighbour_distances) == 2:
             a, b = list(n.neighbour_distances)
             distance = n.neighbour_distances[a] + n.neighbour_distances[b]
-            prev = nodes[a]
+            # prev = nodes[a]
             nxt = nodes[b]
             del nodes[xy]
             nodes[a].neighbour_distances[b] = distance

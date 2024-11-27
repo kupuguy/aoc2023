@@ -1,13 +1,5 @@
 from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
-from collections import deque
-import re
 from typing import Callable
-from operator import lt, gt
-from dataclasses import dataclass
-from math import lcm
 
 input = Path("input/day21.txt").read_text().strip().splitlines()
 
@@ -56,12 +48,14 @@ def next_locations(
     return {p for point in points for p in neighbours(point, gardens)}
 
 
-def part1(input: list[str], nsteps: int = 64) -> int:
+def part1(
+    input: list[str], nsteps: int = 64, nxt_loc: Callable = next_locations
+) -> int:
     start, gardens = parse(input)
     width, height = len(input[0]), len(input)
     reachable = {start}
     for step in range(nsteps):
-        reachable = next_locations(reachable, gardens, width, height)
+        reachable = nxt_loc(reachable, gardens, width, height)
     return len(reachable)
 
 
@@ -70,7 +64,7 @@ assert res == EXPECTED
 print(f"{part1(input)=}")
 
 
-def neighbours(
+def neighbours_2(
     point: tuple[int, int], gardens: set[tuple[int, int]], width, height
 ) -> list[tuple[int, int]]:
     """Now handles infinite grid!"""
@@ -82,10 +76,10 @@ def neighbours(
     ]
 
 
-def next_locations(
+def next_locations_2(
     points: set[tuple[int, int]], gardens: set[tuple[int, int]], width: int, height: int
 ):
-    return {p for point in points for p in neighbours(point, gardens, width, height)}
+    return {p for point in points for p in neighbours_2(point, gardens, width, height)}
 
 
 """
@@ -118,9 +112,9 @@ def part2(input: list[str], nsteps: int = 26501365) -> int:
     remainder = nsteps % grid_size
     target = nsteps // grid_size
     values = [
-        part1(input, remainder),
-        part1(input, remainder + grid_size),
-        part1(input, remainder + 2 * grid_size),
+        part1(input, remainder, nxt_loc=next_locations_2),
+        part1(input, remainder + grid_size, nxt_loc=next_locations_2),
+        part1(input, remainder + 2 * grid_size, nxt_loc=next_locations_2),
     ]
     print(values)
     poly = simplifiedLagrange(*values)

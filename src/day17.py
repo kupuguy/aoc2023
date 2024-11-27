@@ -1,8 +1,5 @@
-from pathlib import Path
-from typing import Sequence
-from functools import cache
 from collections import deque
-from pprint import pprint
+from pathlib import Path
 
 input = Path("input/day17.txt").read_text().strip().splitlines()
 
@@ -40,15 +37,13 @@ def shortest_path(
             pos += dir
 
     costs: dict[complex, dict[complex, int]] = {
-        1
-        + 0j: {
+        1 + 0j: {
             start: 0,
         },
         1j: {
             start: 0,
         },
-        -1
-        + 0j: {
+        -1 + 0j: {
             start: 0,
         },
         -1j: {
@@ -121,15 +116,13 @@ def ultra_path(
             pos += dir
 
     costs: dict[complex, dict[complex, int]] = {
-        1
-        + 0j: {
+        1 + 0j: {
             start: 0,
         },
         1j: {
             start: 0,
         },
-        -1
-        + 0j: {
+        -1 + 0j: {
             start: 0,
         },
         -1j: {

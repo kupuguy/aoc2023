@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Sequence
 
 input = Path("input/day11.txt").read_text().splitlines()
 
@@ -53,16 +52,6 @@ def expand(galaxies: list[tuple[int, int]], expansion: int) -> list[tuple[int, i
             for g, orig in zip(exp, galaxies)
         ]
     return exp
-
-
-def distance(g1: tuple[int, int], g2: tuple[int, int]) -> int:
-    c1, r1 = g1
-    c2, r2 = g2
-    n = abs(r2 - r1) + abs(c2 - c1)
-
-
-# assert distance((1,6), (6, 11)) == 9
-# assert distance((0, 11), (6, 11)) == 5
 
 
 def part1(input: list[str], expansion: int = 2) -> int:

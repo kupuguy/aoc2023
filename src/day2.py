@@ -1,5 +1,4 @@
 import pathlib
-import re
 
 input = pathlib.Path("../input/day2.txt").read_text().splitlines()
 

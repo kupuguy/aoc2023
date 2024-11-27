@@ -29,7 +29,5 @@ print(part1(input))
 
 nospace = """Time:        42     68     69     85
 Distance:   284   1005   1122   1341
-""".replace(
-    " ", ""
-).splitlines()
+""".replace(" ", "").splitlines()
 print(part1(nospace))  # 26187338

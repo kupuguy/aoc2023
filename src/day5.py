@@ -1,7 +1,5 @@
-from pathlib import Path
-import re
-from pprint import pprint
 from itertools import pairwise
+from pathlib import Path
 
 TEST_DATA = """seeds: 79 14 55 13
 

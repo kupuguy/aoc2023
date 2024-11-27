@@ -1,12 +1,6 @@
-from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
-from collections import deque
-import re
-from typing import Callable
-from operator import lt, gt
 from dataclasses import dataclass, field
+from functools import cache
+from pathlib import Path
 from string import ascii_uppercase
 
 input = Path("input/day22.txt").read_text().strip().splitlines()

@@ -1,6 +1,5 @@
-from pathlib import Path
-from typing import Sequence
 from itertools import pairwise
+from pathlib import Path
 
 input = Path("input/day9.txt").read_text().splitlines()
 

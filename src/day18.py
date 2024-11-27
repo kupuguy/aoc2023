@@ -1,9 +1,5 @@
-from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
 from collections import deque
-import re
+from pathlib import Path
 
 input = Path("input/day18.txt").read_text().strip().splitlines()
 

@@ -1,7 +1,7 @@
-from pathlib import Path
 from itertools import cycle
-from typing import Sequence
 from math import gcd
+from pathlib import Path
+from typing import Sequence
 
 input = Path("input/day8.txt").read_text().splitlines()
 

@@ -1,13 +1,7 @@
-from pathlib import Path
-from typing import Sequence
-from functools import cache
-from pprint import pprint
 from collections import deque
-import re
-from typing import Callable
-from operator import lt, gt
-from dataclasses import dataclass
 from math import lcm
+from pathlib import Path
+from pprint import pprint
 
 input = Path("input/day20.txt").read_text().strip().splitlines()
 

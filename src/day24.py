@@ -1,15 +1,9 @@
+import functools
+import math
+from dataclasses import dataclass
+from itertools import combinations
 from pathlib import Path
 from typing import Sequence
-from functools import cache
-from pprint import pprint
-from collections import deque
-import re
-from typing import Callable, Generator
-from operator import lt, gt
-from dataclasses import dataclass, field
-from string import ascii_uppercase
-from itertools import combinations
-import functools, math
 
 sign = functools.partial(math.copysign, 1)
 
@@ -113,9 +107,9 @@ class Hailstone:
 def parse(input: list[str]) -> list[Hailstone]:
     stones: list[Hailstone] = []
     for line in input:
-        l, _, r = line.partition(" @ ")
-        px, py, pz = [int(n.strip()) for n in l.split(",")]
-        vx, vy, vz = [int(n.strip()) for n in r.split(",")]
+        left, _, right = line.partition(" @ ")
+        px, py, pz = [int(n.strip()) for n in left.split(",")]
+        vx, vy, vz = [int(n.strip()) for n in right.split(",")]
         stones.append(Hailstone(px, py, pz, vx, vy, vz))
     return stones
 

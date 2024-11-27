@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Sequence
-from functools import cache
 
 input = Path("input/day13.txt").read_text().splitlines()
 
